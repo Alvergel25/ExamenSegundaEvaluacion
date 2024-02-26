@@ -25,6 +25,6 @@ public class Firework : MonoBehaviour
     // Update is called once per frame
     void FixedUpdate()
     {
-        
+        _rb.AddForce(Vector2.up * force * _rb.gravityScale, ForceMode2D.Impulse);
     }
 }

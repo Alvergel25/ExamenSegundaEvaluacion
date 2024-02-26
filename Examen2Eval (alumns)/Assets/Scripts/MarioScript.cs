@@ -11,12 +11,16 @@ public class MarioScript : MonoBehaviour
     public LayerMask groundMask;
     public AudioClip jumpClip;
     public GameObject fireworkPrefab;
+    public int maxJumps = 2; //El numero maximo de saltos (Doble salto)
 
     private Rigidbody2D rb;
     private SpriteRenderer _rend;
     private Animator _animator;
     private Vector2 dir;
     private bool _intentionToJump;
+
+    private int currentJumps = 0; //La cantidad de saltos que ha dado (antes de tocar el suelo)
+
 
     // Start is called before the first frame update
     void Start()
@@ -79,10 +83,11 @@ public class MarioScript : MonoBehaviour
         rb.velocity = nVel;
 
 
-        if (_intentionToJump && grnd)
+        if (_intentionToJump && (grnd || currentJumps < maxJumps)) //Si tiene intencion de saltar (pulsa JumpKey) Y esta en el suelo o bien la cantidad de saltos que ha hecho es menor de la maxima
         {
             _animator.Play("jumpAnimation");
             AddJumpForce();
+            currentJumps++; //Suma 1 a currentJumps
         }
         _intentionToJump = false;
 
@@ -101,6 +106,7 @@ public class MarioScript : MonoBehaviour
         RaycastHit2D collision = Physics2D.Raycast(transform.position, Vector2.down, rayDistance, groundMask);
         if (collision)
         {
+            currentJumps = 0;
             return true;
         }
         return false;
