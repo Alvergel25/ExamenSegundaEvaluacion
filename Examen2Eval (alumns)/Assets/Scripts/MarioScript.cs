@@ -91,7 +91,7 @@ public class MarioScript : MonoBehaviour
         }
         _intentionToJump = false;
 
-        _animator.SetBool("isGrounded", grnd);
+        
     }
 
     public void AddJumpForce()
